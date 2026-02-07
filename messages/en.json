@@ -1,0 +1,62 @@
+{
+  "Meta": {
+    "title": "Snapping Turtle | IT Consulting & AI Solutions",
+    "description": "We help businesses with AI solutions, Dynamics 365, Power Platform, Azure, and custom CRM systems."
+  },
+  "Header": {
+    "services": "Services",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "Hero": {
+    "tagline": "Smart IT Solutions for Tomorrow's Business",
+    "subtitle": "We build AI solutions, CRM systems, and cloud services that drive your business forward.",
+    "cta": "Get in Touch"
+  },
+  "Services": {
+    "heading": "Our Services",
+    "ai": {
+      "title": "AI Solutions",
+      "description": "Custom AI implementations that automate processes and generate insights from your data."
+    },
+    "dynamics": {
+      "title": "Dynamics 365 CRM",
+      "description": "Implementation, customization, and support of Microsoft Dynamics 365 for sales and customer management."
+    },
+    "powerplatform": {
+      "title": "Power Platform",
+      "description": "Power Apps, Power Automate, and Power BI to digitize workflows and visualize data."
+    },
+    "azure": {
+      "title": "Azure",
+      "description": "Cloud infrastructure, migration, and DevOps solutions on Microsoft Azure."
+    },
+    "customcrm": {
+      "title": "Custom CRM Systems",
+      "description": "Tailor-made CRM solutions when standard systems fall short."
+    }
+  },
+  "About": {
+    "heading": "About Snapping Turtle",
+    "text1": "We are an IT consulting firm specializing in helping businesses harness the power of modern technology.",
+    "text2": "With deep expertise in the Microsoft ecosystem and AI, we build solutions that make a real difference for our clients."
+  },
+  "Contact": {
+    "heading": "Get in Touch",
+    "namePlaceholder": "Your name",
+    "emailPlaceholder": "Your email",
+    "messagePlaceholder": "Your message",
+    "submit": "Send Message",
+    "sending": "Sending...",
+    "success": "Thank you! Your message has been sent.",
+    "error": "Something went wrong. Please try again or contact us directly.",
+    "info": "Or contact us directly",
+    "phone": "Phone"
+  },
+  "Footer": {
+    "copyright": "© {year} Snapping Turtle. All rights reserved.",
+    "description": "IT consulting services in AI, CRM, and cloud solutions.",
+    "contact": "Contact",
+    "phone": "Phone"
+  }
+}
