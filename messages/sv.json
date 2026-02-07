@@ -1,0 +1,62 @@
+{
+  "Meta": {
+    "title": "Snapping Turtle | IT-konsulttjänster & AI-lösningar",
+    "description": "Vi hjälper företag med AI-lösningar, Dynamics 365, Power Platform, Azure och skräddarsydda CRM-system."
+  },
+  "Header": {
+    "services": "Tjänster",
+    "about": "Om oss",
+    "contact": "Kontakt"
+  },
+  "Hero": {
+    "tagline": "Smarta IT-lösningar för framtidens företag",
+    "subtitle": "Vi bygger AI-lösningar, CRM-system och molntjänster som driver er verksamhet framåt.",
+    "cta": "Kontakta oss"
+  },
+  "Services": {
+    "heading": "Våra tjänster",
+    "ai": {
+      "title": "AI-lösningar",
+      "description": "Skräddarsydda AI-implementationer som automatiserar processer och ger insikter från era data."
+    },
+    "dynamics": {
+      "title": "Dynamics 365 CRM",
+      "description": "Implementering, anpassning och support av Microsoft Dynamics 365 för säljstöd och kundhantering."
+    },
+    "powerplatform": {
+      "title": "Power Platform",
+      "description": "Power Apps, Power Automate och Power BI för att digitalisera arbetsflöden och visualisera data."
+    },
+    "azure": {
+      "title": "Azure",
+      "description": "Molninfrastruktur, migration och DevOps-lösningar på Microsoft Azure."
+    },
+    "customcrm": {
+      "title": "Skräddarsydda CRM-system",
+      "description": "Kundanpassade CRM-lösningar när standardsystem inte räcker till."
+    }
+  },
+  "About": {
+    "heading": "Om Snapping Turtle",
+    "text1": "Vi är ett IT-konsultbolag som specialiserar oss på att hjälpa företag utnyttja kraften i modern teknologi.",
+    "text2": "Med djup expertis inom Microsofts ekosystem och AI bygger vi lösningar som gör verklig skillnad för våra kunder."
+  },
+  "Contact": {
+    "heading": "Kontakta oss",
+    "namePlaceholder": "Ditt namn",
+    "emailPlaceholder": "Din e-post",
+    "messagePlaceholder": "Ditt meddelande",
+    "submit": "Skicka meddelande",
+    "sending": "Skickar...",
+    "success": "Tack! Ditt meddelande har skickats.",
+    "error": "Något gick fel. Försök igen eller kontakta oss direkt.",
+    "info": "Eller kontakta oss direkt",
+    "phone": "Telefon"
+  },
+  "Footer": {
+    "copyright": "© {year} Snapping Turtle. Alla rättigheter förbehållna.",
+    "description": "IT-konsulttjänster inom AI, CRM och molnlösningar.",
+    "contact": "Kontakt",
+    "phone": "Telefon"
+  }
+}
