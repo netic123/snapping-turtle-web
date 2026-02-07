@@ -5,7 +5,6 @@ import { Inter } from "next/font/google";
 import { routing } from "@/i18n/routing";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import VisitorTracker from "@/components/VisitorTracker";
 import "../global.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -42,7 +41,6 @@ export default async function LocaleLayout({ children, params }: Props) {
     <html lang={locale} className="scroll-smooth">
       <body className={`${inter.className} bg-white text-bark-700`}>
         <NextIntlClientProvider messages={messages}>
-          <VisitorTracker />
           <Header />
           <main>{children}</main>
           <Footer />
