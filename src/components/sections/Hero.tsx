@@ -4,12 +4,13 @@ import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
+import { COMPANY } from "@/lib/constants";
 
 export default function Hero() {
   const t = useTranslations("Hero");
 
   return (
-    <section className="relative min-h-[90vh] flex items-center bg-turtle-950 overflow-hidden">
+    <section className="relative min-h-[70vh] flex items-center justify-center bg-turtle-950 overflow-hidden">
       {/* Animated gradient orbs */}
       <div className="absolute inset-0">
         <motion.div
@@ -52,9 +53,17 @@ export default function Hero() {
       />
 
       <Container className="relative z-10 py-20">
-        <div className="max-w-3xl">
+        <div className="max-w-3xl mx-auto text-center">
+          <motion.p
+            className="text-sm md:text-base font-semibold uppercase tracking-widest text-turtle-400 mb-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+          >
+            {COMPANY.name}
+          </motion.p>
           <motion.h1
-            className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight tracking-tight"
+            className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight tracking-tight"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
@@ -62,7 +71,7 @@ export default function Hero() {
             {t("tagline")}
           </motion.h1>
           <motion.p
-            className="text-lg md:text-xl text-turtle-200 mt-6 max-w-2xl leading-relaxed"
+            className="text-lg md:text-xl text-turtle-200 mt-6 mx-auto max-w-2xl leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}

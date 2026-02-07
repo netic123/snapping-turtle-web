@@ -2,10 +2,8 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import Image from "next/image";
 import Container from "@/components/ui/Container";
 import LanguageSwitcher from "@/components/ui/LanguageSwitcher";
-import { COMPANY } from "@/lib/constants";
 
 export default function Header() {
   const t = useTranslations("Header");
@@ -20,20 +18,7 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-bark-200">
       <Container>
-        <nav className="flex items-center justify-between h-16">
-          <a href="#" className="flex items-center gap-3">
-            <Image
-              src="/images/logo-light.png"
-              alt="Snapping Turtle"
-              width={80}
-              height={45}
-              className="h-8 w-auto"
-            />
-            <span className="font-bold text-xl text-bark-900">
-              {COMPANY.name}
-            </span>
-          </a>
-
+        <nav className="flex items-center justify-center h-16 gap-8">
           <div className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
               <a
