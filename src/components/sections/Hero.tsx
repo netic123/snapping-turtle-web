@@ -200,6 +200,7 @@ function HeroCanvas() {
     }
 
     function resize() {
+      if (!canvas) return;
       const rect = canvas.parentElement?.getBoundingClientRect();
       if (rect) {
         canvas.width = rect.width;
