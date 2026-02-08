@@ -5,7 +5,32 @@ type IconProps = {
 export function BrainIcon({ className = "w-6 h-6" }: IconProps) {
   return (
     <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 0 1-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 0 1 4.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19 14.5M14.25 3.104c.251.023.501.05.75.082M19 14.5l-2.47-2.47M5 14.5l2.47-2.47m0 0a3.375 3.375 0 0 0 9.06 0" />
+      {/* Neural network: 3 layers of nodes connected by lines */}
+      {/* Layer 1 (left) */}
+      <circle cx="4" cy="6" r="1.5" fill="currentColor" stroke="none" />
+      <circle cx="4" cy="12" r="1.5" fill="currentColor" stroke="none" />
+      <circle cx="4" cy="18" r="1.5" fill="currentColor" stroke="none" />
+      {/* Layer 2 (middle) */}
+      <circle cx="12" cy="8" r="1.5" fill="currentColor" stroke="none" />
+      <circle cx="12" cy="16" r="1.5" fill="currentColor" stroke="none" />
+      {/* Layer 3 (right) */}
+      <circle cx="20" cy="6" r="1.5" fill="currentColor" stroke="none" />
+      <circle cx="20" cy="12" r="1.5" fill="currentColor" stroke="none" />
+      <circle cx="20" cy="18" r="1.5" fill="currentColor" stroke="none" />
+      {/* Connections L1 → L2 */}
+      <line x1="5.5" y1="6" x2="10.5" y2="8" strokeLinecap="round" />
+      <line x1="5.5" y1="6" x2="10.5" y2="16" strokeLinecap="round" />
+      <line x1="5.5" y1="12" x2="10.5" y2="8" strokeLinecap="round" />
+      <line x1="5.5" y1="12" x2="10.5" y2="16" strokeLinecap="round" />
+      <line x1="5.5" y1="18" x2="10.5" y2="8" strokeLinecap="round" />
+      <line x1="5.5" y1="18" x2="10.5" y2="16" strokeLinecap="round" />
+      {/* Connections L2 → L3 */}
+      <line x1="13.5" y1="8" x2="18.5" y2="6" strokeLinecap="round" />
+      <line x1="13.5" y1="8" x2="18.5" y2="12" strokeLinecap="round" />
+      <line x1="13.5" y1="8" x2="18.5" y2="18" strokeLinecap="round" />
+      <line x1="13.5" y1="16" x2="18.5" y2="6" strokeLinecap="round" />
+      <line x1="13.5" y1="16" x2="18.5" y2="12" strokeLinecap="round" />
+      <line x1="13.5" y1="16" x2="18.5" y2="18" strokeLinecap="round" />
     </svg>
   );
 }
