@@ -48,6 +48,7 @@ function HeroCanvas() {
     let signals: Signal[] = [];
     let animId = 0;
     let lastThoughtTime = 0;
+    let isVisible = true;
     // Count how many signals are on each connection
     function getConnSignalCounts(): Uint8Array {
       const counts = new Uint8Array(connections.length);
@@ -210,6 +211,13 @@ function HeroCanvas() {
     }
 
     function draw(now: number) {
+      animId = requestAnimationFrame(draw);
+
+      if (!isVisible) {
+        lastTime = 0;
+        return;
+      }
+
       if (!lastTime) lastTime = now;
       const dt = Math.min((now - lastTime) / 1000, 0.05);
       lastTime = now;
@@ -217,7 +225,7 @@ function HeroCanvas() {
 
       const w = canvas.width;
       const h = canvas.height;
-      if (w === 0 || h === 0) { animId = requestAnimationFrame(draw); return; }
+      if (w === 0 || h === 0) return;
 
       ctx.fillStyle = "#052e16";
       ctx.fillRect(0, 0, w, h);
@@ -501,7 +509,6 @@ function HeroCanvas() {
         ctx.fill();
       }
 
-      animId = requestAnimationFrame(draw);
     }
 
     const onMove = (e: MouseEvent) => {
@@ -511,6 +518,17 @@ function HeroCanvas() {
     };
     const onLeave = () => { mx = -1; my = -1; };
 
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible) {
+          lastThoughtTime = performance.now();
+        }
+      },
+      { threshold: 0 }
+    );
+    observer.observe(canvas);
+
     resize();
     window.addEventListener("resize", resize);
     canvas.addEventListener("mousemove", onMove);
@@ -518,10 +536,10 @@ function HeroCanvas() {
     animId = requestAnimationFrame(draw);
 
     return () => {
+      observer.disconnect();
       window.removeEventListener("resize", resize);
       canvas.removeEventListener("mousemove", onMove);
       canvas.removeEventListener("mouseleave", onLeave);
-
       cancelAnimationFrame(animId);
     };
   }, []);
