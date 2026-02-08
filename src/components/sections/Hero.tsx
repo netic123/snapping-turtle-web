@@ -198,6 +198,9 @@ function HeroCanvas() {
       }
 
       lastThoughtTime = performance.now() - 4000;
+
+      // Fire a few thoughts immediately so the network looks alive on load
+      for (let i = 0; i < 3; i++) fireThought();
     }
 
     function resize() {
