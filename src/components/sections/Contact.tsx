@@ -56,7 +56,7 @@ export default function Contact() {
                 type="text"
                 placeholder={t("namePlaceholder")}
                 required
-                className="w-full px-4 py-3 rounded-lg border border-bark-200 focus:ring-2 focus:ring-turtle-500 focus:border-transparent outline-none transition-all"
+                className="w-full px-4 py-3 rounded-lg border border-bark-300 bg-white shadow-sm focus:ring-2 focus:ring-turtle-500 focus:border-transparent outline-none transition-all"
               />
             </div>
             <div>
@@ -65,7 +65,7 @@ export default function Contact() {
                 type="email"
                 placeholder={t("emailPlaceholder")}
                 required
-                className="w-full px-4 py-3 rounded-lg border border-bark-200 focus:ring-2 focus:ring-turtle-500 focus:border-transparent outline-none transition-all"
+                className="w-full px-4 py-3 rounded-lg border border-bark-300 bg-white shadow-sm focus:ring-2 focus:ring-turtle-500 focus:border-transparent outline-none transition-all"
               />
             </div>
             <div>
@@ -74,7 +74,7 @@ export default function Contact() {
                 rows={5}
                 placeholder={t("messagePlaceholder")}
                 required
-                className="w-full px-4 py-3 rounded-lg border border-bark-200 focus:ring-2 focus:ring-turtle-500 focus:border-transparent outline-none transition-all resize-none"
+                className="w-full px-4 py-3 rounded-lg border border-bark-300 bg-white shadow-sm focus:ring-2 focus:ring-turtle-500 focus:border-transparent outline-none transition-all resize-none"
               />
             </div>
             <Button type="submit" disabled={status === "sending"}>

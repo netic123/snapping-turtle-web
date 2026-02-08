@@ -36,6 +36,15 @@
       "description": "Tailor-made CRM solutions when standard systems fall short."
     }
   },
+  "Clients": {
+    "heading": "Companies We've Worked With",
+    "energy": "Energy",
+    "insurance": "Insurance",
+    "education": "Education",
+    "itConsulting": "IT & Consulting",
+    "infrastructure": "Infrastructure",
+    "security": "Security & Access"
+  },
   "About": {
     "heading": "About Snapping Turtle",
     "text1": "We are an IT consulting firm specializing in helping businesses harness the power of modern technology.",

@@ -36,6 +36,15 @@
       "description": "Kundanpassade CRM-lösningar när standardsystem inte räcker till."
     }
   },
+  "Clients": {
+    "heading": "Företag vi arbetat med",
+    "energy": "Energi",
+    "insurance": "Försäkring",
+    "education": "Utbildning",
+    "itConsulting": "IT & Konsulting",
+    "infrastructure": "Infrastruktur",
+    "security": "Säkerhet & Lås"
+  },
   "About": {
     "heading": "Om Snapping Turtle",
     "text1": "Vi är ett IT-konsultbolag som specialiserar oss på att hjälpa företag utnyttja kraften i modern teknologi.",

@@ -15,15 +15,16 @@ export default function Services() {
         <ScrollReveal>
           <SectionHeading>{t("heading")}</SectionHeading>
         </ScrollReveal>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+        <div className="flex flex-wrap justify-center gap-6 mt-12">
           {SERVICES.map((service, i) => (
-            <ServiceCard
-              key={service.key}
-              icon={SERVICE_ICONS[service.key]}
-              title={t(`${service.key}.title`)}
-              description={t(`${service.key}.description`)}
-              index={i}
-            />
+            <div key={service.key} className="w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]">
+              <ServiceCard
+                icon={SERVICE_ICONS[service.key]}
+                title={t(`${service.key}.title`)}
+                description={t(`${service.key}.description`)}
+                index={i}
+              />
+            </div>
           ))}
         </div>
       </Container>

@@ -34,6 +34,26 @@ const config: Config = {
       fontFamily: {
         sans: ["Inter", "system-ui", "sans-serif"],
       },
+      keyframes: {
+        aurora: {
+          "0%": { transform: "rotate(0deg) scale(1)" },
+          "25%": { transform: "rotate(90deg) scale(1.1)" },
+          "50%": { transform: "rotate(180deg) scale(1)" },
+          "75%": { transform: "rotate(270deg) scale(1.1)" },
+          "100%": { transform: "rotate(360deg) scale(1)" },
+        },
+        "aurora-reverse": {
+          "0%": { transform: "rotate(0deg) scale(1.1)" },
+          "25%": { transform: "rotate(-90deg) scale(1)" },
+          "50%": { transform: "rotate(-180deg) scale(1.1)" },
+          "75%": { transform: "rotate(-270deg) scale(1)" },
+          "100%": { transform: "rotate(-360deg) scale(1.1)" },
+        },
+      },
+      animation: {
+        aurora: "aurora 20s linear infinite",
+        "aurora-reverse": "aurora-reverse 25s linear infinite",
+      },
     },
   },
   plugins: [],
