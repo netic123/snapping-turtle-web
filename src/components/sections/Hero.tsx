@@ -273,6 +273,10 @@ function HeroCanvas() {
         const done = isReverse ? sig.progress <= 0 : sig.progress >= 1;
 
         if (done) {
+          // Decrement count for the dying signal BEFORE split logic,
+          // so outbound connections see accurate counts
+          if (liveConnCounts[sig.connIdx] > 0) liveConnCounts[sig.connIdx]--;
+
           const conn = connections[sig.connIdx];
           if (conn) {
             // Activate the node we arrived at
@@ -293,7 +297,7 @@ function HeroCanvas() {
             if (allOutConns.length > 0 && nextGen <= 14) {
               const speedMultiplier = 1 + nextGen * 0.15;
               for (const { c, idx } of allOutConns) {
-                // Max 2 signals per connection
+                // Max 1 signal per connection
                 if (liveConnCounts[idx] >= 1) continue;
 
                 const goingForward = c.from === hitNode;
@@ -317,8 +321,6 @@ function HeroCanvas() {
               }
             }
           }
-          // Decrement count for the connection this signal was on
-          if (liveConnCounts[sig.connIdx] > 0) liveConnCounts[sig.connIdx]--;
           signals.splice(i, 1);
         }
       }
