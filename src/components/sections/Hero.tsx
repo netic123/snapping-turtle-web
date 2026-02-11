@@ -31,6 +31,15 @@ interface Signal {
   generation: number;
 }
 
+interface Ripple {
+  x: number;
+  y: number;
+  age: number;
+  maxAge: number;
+  maxRadius: number;
+  hue: number;
+}
+
 function HeroCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -46,9 +55,17 @@ function HeroCanvas() {
     let nodes: Node[] = [];
     let connections: Connection[] = [];
     let signals: Signal[] = [];
+    let ripples: Ripple[] = [];
+    let connAfterglow: Float32Array = new Float32Array(0);
     let animId = 0;
     let lastThoughtTime = 0;
+    let nextFireInterval = 3500;
     let isVisible = true;
+    let lastMouseFireTime = 0;
+    let mouseHoverTime = 0;
+    let nearestNodeToMouse = -1;
+    let nearestNodeDist = Infinity;
+
     // Count how many signals are on each connection
     function getConnSignalCounts(): Uint8Array {
       const counts = new Uint8Array(connections.length);
@@ -72,14 +89,28 @@ function HeroCanvas() {
 
       const connCounts = getConnSignalCounts();
 
-      // Only pick from nodes with zero active signals
+      // Prefer nodes with zero active signals, but fall back to low-activity nodes
       const quietNodes: number[] = [];
+      const calmNodes: number[] = [];
       for (let i = 0; i < nodes.length; i++) {
-        if (!nodeHasActiveSignals(i, connCounts)) quietNodes.push(i);
+        if (!nodeHasActiveSignals(i, connCounts)) {
+          quietNodes.push(i);
+        } else {
+          let busyConns = 0, totalConns = 0;
+          for (let ci = 0; ci < connections.length; ci++) {
+            const c = connections[ci];
+            if (c.from === i || c.to === i) {
+              totalConns++;
+              if (connCounts[ci] > 0) busyConns++;
+            }
+          }
+          if (totalConns > 0 && busyConns < totalConns * 0.5) calmNodes.push(i);
+        }
       }
-      if (quietNodes.length === 0) return; // everything is busy, skip
+      const candidates = quietNodes.length > 0 ? quietNodes : calmNodes;
+      if (candidates.length === 0) return;
 
-      const startIdx = quietNodes[Math.floor(Math.random() * quietNodes.length)];
+      const startIdx = candidates[Math.floor(Math.random() * candidates.length)];
       nodes[startIdx].activation = 1;
 
       const outConns = connections
@@ -103,6 +134,7 @@ function HeroCanvas() {
       nodes = [];
       connections = [];
       signals = [];
+      ripples = [];
 
       // Dense grid layout — more nodes, tighter spacing, smaller text clear zone
       const cols = 14;
@@ -125,10 +157,7 @@ function HeroCanvas() {
           // But allow nodes on the edges of the zone (within 1 grid step)
           const inTextX = bx > textX1 && bx < textX2;
           const inTextY = by > textY1 && by < textY2;
-          const nearEdgeX = bx > (textX1 - spacingX * 0.3) && bx < (textX2 + spacingX * 0.3);
-          const nearEdgeY = by > (textY1 - spacingY * 0.3) && by < (textY2 + spacingY * 0.3);
           const isDeepInside = inTextX && inTextY && !(
-            // Keep nodes that are within 1 step of the text zone edge
             (bx < textX1 + spacingX * 0.8 || bx > textX2 - spacingX * 0.8) ||
             (by < textY1 + spacingY * 0.8 || by > textY2 - spacingY * 0.8)
           );
@@ -198,6 +227,7 @@ function HeroCanvas() {
       }
 
       lastThoughtTime = performance.now() - 4000;
+      connAfterglow = new Float32Array(connections.length);
 
       // Fire a few thoughts immediately so the network looks alive on load
       for (let i = 0; i < 3; i++) fireThought();
@@ -233,14 +263,18 @@ function HeroCanvas() {
       ctx.fillStyle = "#052e16";
       ctx.fillRect(0, 0, w, h);
 
-      // Auto-fire thoughts every ~3-5s from random quiet nodes
-      if (now - lastThoughtTime > 3000 + Math.random() * 2000) {
+      // Auto-fire thoughts
+      if (now - lastThoughtTime > nextFireInterval) {
         lastThoughtTime = now;
+        nextFireInterval = 3000 + Math.random() * 2000;
         fireThought();
       }
 
       // Update nodes
-      for (const node of nodes) {
+      nearestNodeToMouse = -1;
+      nearestNodeDist = Infinity;
+      for (let ni = 0; ni < nodes.length; ni++) {
+        const node = nodes[ni];
         node.x = node.baseX + Math.sin(t * 0.4 + node.phase) * 3 + Math.sin(t * 0.25 + node.phase * 2) * 2;
         node.y = node.baseY + Math.cos(t * 0.35 + node.phase * 1.3) * 3 + Math.cos(t * 0.2 + node.phase) * 2;
 
@@ -253,9 +287,46 @@ function HeroCanvas() {
             node.x += (dx / dist) * f;
             node.y += (dy / dist) * f;
           }
+          // Track nearest node for mouse-triggered signals
+          if (dist < 80 && dist < nearestNodeDist) {
+            nearestNodeToMouse = ni;
+            nearestNodeDist = dist;
+          }
         }
 
         node.activation = Math.max(0, node.activation * 0.98);
+      }
+
+      // Mouse-triggered signals — hovering near a node fires it
+      if (nearestNodeToMouse >= 0) {
+        mouseHoverTime += dt;
+        if (mouseHoverTime > 0.3 && now - lastMouseFireTime > 800) {
+          lastMouseFireTime = now;
+          mouseHoverTime = 0;
+          const startIdx = nearestNodeToMouse;
+          nodes[startIdx].activation = 1;
+          const mConnCounts = getConnSignalCounts();
+          const outConns = connections
+            .map((c, idx) => ({ c, idx }))
+            .filter(({ c }) => c.from === startIdx || c.to === startIdx)
+            .filter(({ idx }) => mConnCounts[idx] < 1);
+          for (const { c, idx } of outConns) {
+            const goingForward = c.from === startIdx;
+            const spd = 0.2 + Math.random() * 0.15;
+            signals.push({
+              connIdx: idx,
+              progress: goingForward ? 0 : 1,
+              speed: goingForward ? spd : -spd,
+              generation: 1,
+            });
+          }
+        }
+      } else {
+        mouseHoverTime = 0;
+      }
+
+      function sigHue(gen: number): number {
+        return 155 + Math.min(gen, 6) * 5;
       }
 
       // Build live signal count per connection for the 2-per-line cap
@@ -295,6 +366,15 @@ function HeroCanvas() {
               });
             const nextGen = sig.generation + 1;
             if (allOutConns.length > 0 && nextGen <= 14) {
+              // Ripple ring at the chain-reaction node
+              ripples.push({
+                x: nodes[arrivedAt].x,
+                y: nodes[arrivedAt].y,
+                age: 0,
+                maxAge: 0.5 + Math.random() * 0.2,
+                maxRadius: 35 + Math.random() * 15,
+                hue: sigHue(nextGen),
+              });
               const speedMultiplier = 1 + nextGen * 0.15;
               for (const { c, idx } of allOutConns) {
                 // Max 1 signal per connection
@@ -321,6 +401,10 @@ function HeroCanvas() {
               }
             }
           }
+          // Afterglow — stamp the connection so it fades over time
+          if (sig.connIdx < connAfterglow.length) {
+            connAfterglow[sig.connIdx] = 1.5;
+          }
           signals.splice(i, 1);
         }
       }
@@ -338,8 +422,9 @@ function HeroCanvas() {
         }
       }
 
-      function sigHue(gen: number): number {
-        return 155 + Math.min(gen, 6) * 5;
+      // Decay afterglow
+      for (let i = 0; i < connAfterglow.length; i++) {
+        if (connAfterglow[i] > 0) connAfterglow[i] = Math.max(0, connAfterglow[i] - dt);
       }
 
       // ── DRAW CONNECTIONS ──
@@ -349,31 +434,58 @@ function HeroCanvas() {
         const to = nodes[conn.to];
         const active = activeConns.get(i);
 
-        // Base line — clean and visible
-        const baseAlpha = 0.15 + (from.activation + to.activation) * 0.12;
+        // Afterglow blend — recently-traversed connections glow brighter
+        const glowFrac = i < connAfterglow.length ? connAfterglow[i] / 1.5 : 0;
+        const baseAlpha = 0.15 + (from.activation + to.activation) * 0.12 + glowFrac * 0.2;
+        const baseLightness = 48 + glowFrac * 10;
         ctx.beginPath();
         ctx.moveTo(from.x, from.y);
         ctx.lineTo(to.x, to.y);
-        ctx.strokeStyle = `hsla(155, 30%, 48%, ${baseAlpha})`;
-        ctx.lineWidth = 1;
+        ctx.strokeStyle = `hsla(${155 + glowFrac * 10}, ${30 + glowFrac * 20}%, ${baseLightness}%, ${baseAlpha})`;
+        ctx.lineWidth = 1 + glowFrac * 0.8;
         ctx.stroke();
 
-        // Glow overlay when signal is traveling
+        // Nerve-fire pulse — sharp bright peak traveling with the signal
         if (active) {
           const hue = sigHue(active.generation);
-          const glowAlpha = 0.15 + active.maxProgress * 0.3;
+          const genFrac = Math.min(active.generation / 14, 1);
+          const pulseWidth = 2.5 + genFrac * 1.0;
+          const p = Math.max(0.15, Math.min(0.85, active.maxProgress));
+
           const gr = ctx.createLinearGradient(from.x, from.y, to.x, to.y);
-          gr.addColorStop(0, `hsla(${hue}, 45%, 50%, ${glowAlpha * 0.15})`);
-          gr.addColorStop(Math.max(0, active.maxProgress - 0.12), `hsla(${hue}, 55%, 58%, ${glowAlpha})`);
-          gr.addColorStop(Math.min(1, active.maxProgress + 0.05), `hsla(${hue}, 55%, 58%, ${glowAlpha})`);
-          gr.addColorStop(Math.min(1, active.maxProgress + 0.15), `hsla(${hue}, 45%, 50%, 0)`);
+          gr.addColorStop(0, `hsla(${hue}, 45%, 50%, 0.03)`);
+          gr.addColorStop(p - 0.12, `hsla(${hue}, 45%, 50%, 0.05)`);
+          gr.addColorStop(p - 0.04, `hsla(${hue}, 60%, 60%, 0.25)`);
+          gr.addColorStop(p, `hsla(${hue}, 70%, 65%, 0.4)`);
+          gr.addColorStop(p + 0.02, `hsla(${hue}, 55%, 55%, 0.08)`);
+          gr.addColorStop(p + 0.12, `hsla(${hue}, 45%, 50%, 0)`);
+          if (p + 0.12 < 1) gr.addColorStop(1, `hsla(${hue}, 45%, 50%, 0)`);
+
           ctx.beginPath();
           ctx.moveTo(from.x, from.y);
           ctx.lineTo(to.x, to.y);
           ctx.strokeStyle = gr;
-          ctx.lineWidth = 2.5;
+          ctx.lineWidth = pulseWidth;
           ctx.stroke();
         }
+      }
+
+      // ── DRAW RIPPLES ──
+      for (let i = ripples.length - 1; i >= 0; i--) {
+        const rp = ripples[i];
+        rp.age += dt;
+        if (rp.age >= rp.maxAge) {
+          ripples.splice(i, 1);
+          continue;
+        }
+        const frac = rp.age / rp.maxAge;
+        const radius = frac * rp.maxRadius;
+        const alpha = (1 - frac) * 0.35;
+        ctx.beginPath();
+        ctx.arc(rp.x, rp.y, radius, 0, TAU);
+        ctx.strokeStyle = `hsla(${rp.hue}, 60%, 60%, ${alpha})`;
+        ctx.lineWidth = 1.5 * (1 - frac * 0.6);
+        ctx.stroke();
       }
 
       // ── DRAW SIGNALS ──
@@ -383,6 +495,14 @@ function HeroCanvas() {
         const from = nodes[conn.from];
         const to = nodes[conn.to];
         const hue = sigHue(sig.generation);
+
+        // Generation-dependent visual scaling
+        const genFrac = Math.min(sig.generation / 14, 1);
+        const sizeScale = 1 + genFrac * 0.5;
+        const brightBoost = genFrac * 0.15;
+        const pulseRate = 3 + genFrac * 8;
+        const corePulse = Math.sin(t * pulseRate + sig.progress * 10) * 0.5 + 0.5;
+        const sat = 65 + genFrac * 20;
 
         // Progress along the line (0→1 for forward, 1→0 for reverse)
         const p = Math.max(0, Math.min(1, sig.progress));
@@ -395,30 +515,35 @@ function HeroCanvas() {
         const fadeOut = Math.min((1 - traveled) / 0.15, 1);
         const intensity = fadeIn * fadeOut;
 
-        // Outer bloom
-        const gr2 = ctx.createRadialGradient(px, py, 0, px, py, 20);
-        gr2.addColorStop(0, `hsla(${hue}, 65%, 65%, ${0.3 * intensity})`);
-        gr2.addColorStop(0.4, `hsla(${hue}, 55%, 55%, ${0.08 * intensity})`);
-        gr2.addColorStop(1, `hsla(${hue}, 45%, 45%, 0)`);
+        // Outer bloom — scales with generation
+        const bloomR = 20 * sizeScale;
+        const gr2 = ctx.createRadialGradient(px, py, 0, px, py, bloomR);
+        gr2.addColorStop(0, `hsla(${hue}, ${sat}%, 65%, ${(0.3 + brightBoost) * intensity})`);
+        gr2.addColorStop(0.4, `hsla(${hue}, ${sat - 10}%, 55%, ${(0.08 + brightBoost * 0.3) * intensity})`);
+        gr2.addColorStop(1, `hsla(${hue}, ${sat - 20}%, 45%, 0)`);
         ctx.beginPath();
-        ctx.arc(px, py, 20, 0, TAU);
+        ctx.arc(px, py, bloomR, 0, TAU);
         ctx.fillStyle = gr2;
         ctx.fill();
 
-        // Inner glow
-        const gr = ctx.createRadialGradient(px, py, 0, px, py, 6);
-        gr.addColorStop(0, `hsla(${hue}, 85%, 85%, ${0.8 * intensity})`);
-        gr.addColorStop(0.5, `hsla(${hue}, 65%, 60%, ${0.2 * intensity})`);
-        gr.addColorStop(1, `hsla(${hue}, 50%, 50%, 0)`);
+        // Inner glow — scales with generation
+        const innerR = 6 * sizeScale;
+        const gr = ctx.createRadialGradient(px, py, 0, px, py, innerR);
+        gr.addColorStop(0, `hsla(${hue}, ${sat + 20}%, 85%, ${(0.8 + brightBoost) * intensity})`);
+        gr.addColorStop(0.5, `hsla(${hue}, ${sat}%, 60%, ${(0.2 + brightBoost * 0.5) * intensity})`);
+        gr.addColorStop(1, `hsla(${hue}, ${sat - 15}%, 50%, 0)`);
         ctx.beginPath();
-        ctx.arc(px, py, 6, 0, TAU);
+        ctx.arc(px, py, innerR, 0, TAU);
         ctx.fillStyle = gr;
         ctx.fill();
 
-        // Core
+        // Core — pulses faster for later generations
+        const coreR = (1.8 + corePulse * 0.8) * sizeScale;
+        const coreSat = 90 - genFrac * 30;
+        const coreLight = 93 + genFrac * 5;
         ctx.beginPath();
-        ctx.arc(px, py, 1.8, 0, TAU);
-        ctx.fillStyle = `hsla(${hue}, 90%, 93%, ${0.95 * intensity})`;
+        ctx.arc(px, py, coreR, 0, TAU);
+        ctx.fillStyle = `hsla(${hue}, ${coreSat}%, ${coreLight}%, ${0.95 * intensity})`;
         ctx.fill();
 
         // Trail line — follows behind the signal
@@ -432,12 +557,12 @@ function HeroCanvas() {
         const trailGr = ctx.createLinearGradient(tx, ty, px, py);
         trailGr.addColorStop(0, `hsla(${hue}, 45%, 50%, 0)`);
         trailGr.addColorStop(0.5, `hsla(${hue}, 55%, 55%, ${0.08 * intensity})`);
-        trailGr.addColorStop(1, `hsla(${hue}, 60%, 60%, ${0.25 * intensity})`);
+        trailGr.addColorStop(1, `hsla(${hue}, 60%, 60%, ${(0.25 + brightBoost) * intensity})`);
         ctx.beginPath();
         ctx.moveTo(tx, ty);
         ctx.lineTo(px, py);
         ctx.strokeStyle = trailGr;
-        ctx.lineWidth = 2;
+        ctx.lineWidth = 2 + genFrac * 0.5;
         ctx.lineCap = "round";
         ctx.stroke();
         ctx.lineCap = "butt";
@@ -503,13 +628,14 @@ function HeroCanvas() {
         }
       }
 
-      // Mouse glow
+      // Mouse glow — larger, warmer
       if (mx > 0 && my > 0) {
-        const mgr = ctx.createRadialGradient(mx, my, 0, mx, my, 100);
-        mgr.addColorStop(0, "hsla(155, 50%, 55%, 0.05)");
+        const mgr = ctx.createRadialGradient(mx, my, 0, mx, my, 130);
+        mgr.addColorStop(0, "hsla(148, 55%, 58%, 0.08)");
+        mgr.addColorStop(0.4, "hsla(150, 50%, 55%, 0.04)");
         mgr.addColorStop(1, "hsla(155, 40%, 40%, 0)");
         ctx.beginPath();
-        ctx.arc(mx, my, 100, 0, TAU);
+        ctx.arc(mx, my, 130, 0, TAU);
         ctx.fillStyle = mgr;
         ctx.fill();
       }
