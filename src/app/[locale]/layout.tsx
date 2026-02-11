@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: Props) {
     title: messages.Meta.title,
     description: messages.Meta.description,
     icons: {
-      icon: "/images/favicon.svg",
+      icon: "/images/favicon.png",
     },
   };
 }
