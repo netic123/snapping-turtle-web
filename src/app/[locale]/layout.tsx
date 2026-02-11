@@ -24,6 +24,9 @@ export async function generateMetadata({ params }: Props) {
   return {
     title: messages.Meta.title,
     description: messages.Meta.description,
+    icons: {
+      icon: "/images/logo-light.png",
+    },
   };
 }
 
