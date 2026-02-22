@@ -18,17 +18,17 @@ export default function Clients() {
   const t = useTranslations("Clients");
 
   return (
-    <section className="py-20 bg-turtle-950">
+    <section className="py-20 bg-turtle-900">
       <Container>
         <ScrollReveal>
-          <p className="text-center text-turtle-400 text-sm font-medium uppercase tracking-widest mb-12">
+          <p className="text-center text-white/70 text-sm font-medium uppercase tracking-widest mb-12">
             {t("heading")}
           </p>
         </ScrollReveal>
         <div className="flex flex-wrap justify-center gap-3">
           {INDUSTRIES.map((industryKey, i) => (
             <ScrollReveal key={industryKey} delay={i * 0.08}>
-              <span className="inline-block px-5 py-2.5 rounded-full border border-turtle-700/50 hover:border-turtle-500 bg-turtle-900/30 hover:bg-turtle-900/60 text-sm md:text-base font-medium text-turtle-300 hover:text-white transition-all duration-300 cursor-default">
+              <span className="inline-block px-5 py-2.5 rounded-full border border-white/30 hover:border-white/60 bg-white/10 hover:bg-white/20 text-sm md:text-base font-medium text-white/90 hover:text-white transition-all duration-300 cursor-default">
                 {t(industryKey)}
               </span>
             </ScrollReveal>
