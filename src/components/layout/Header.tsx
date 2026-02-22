@@ -21,13 +21,13 @@ export default function Header() {
         <nav className="flex items-center justify-center h-16 gap-8">
           <div className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
-              <a
+              <button
                 key={link.href}
-                href={link.href}
+                onClick={() => document.querySelector(link.href)?.scrollIntoView({ behavior: "smooth" })}
                 className="text-bark-600 hover:text-turtle-700 font-medium transition-colors"
               >
                 {link.label}
-              </a>
+              </button>
             ))}
           </div>
 
@@ -52,14 +52,16 @@ export default function Header() {
         {menuOpen && (
           <div className="md:hidden border-t border-bark-200 py-4 space-y-3">
             {navLinks.map((link) => (
-              <a
+              <button
                 key={link.href}
-                href={link.href}
-                onClick={() => setMenuOpen(false)}
+                onClick={() => {
+                  setMenuOpen(false);
+                  document.querySelector(link.href)?.scrollIntoView({ behavior: "smooth" });
+                }}
                 className="block text-bark-600 hover:text-turtle-700 font-medium py-2"
               >
                 {link.label}
-              </a>
+              </button>
             ))}
           </div>
         )}

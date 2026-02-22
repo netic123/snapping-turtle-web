@@ -136,11 +136,11 @@ function HeroCanvas() {
       signals = [];
       ripples = [];
 
-      // Dense grid layout — more nodes, tighter spacing, smaller text clear zone
-      const cols = 14;
-      const rows = 7;
-      const padX = w * 0.04;
-      const padY = h * 0.05;
+      // Sparser grid for cleaner look
+      const cols = 10;
+      const rows = 5;
+      const padX = w * 0.08;
+      const padY = h * 0.06;
       const spacingX = (w - padX * 2) / (cols - 1);
       const spacingY = (h - padY * 2) / (rows - 1);
 
@@ -199,7 +199,7 @@ function HeroCanvas() {
 
         const rightward = dists.filter(d => d.dx > 10);
         let picks = 0;
-        const maxConns = 3 + Math.floor(Math.random() * 2); // 3-4 connections
+        const maxConns = 2 + Math.floor(Math.random() * 2); // 2-3 connections
 
         // Prefer rightward
         for (const d of rightward) {
@@ -427,6 +427,16 @@ function HeroCanvas() {
         if (connAfterglow[i] > 0) connAfterglow[i] = Math.max(0, connAfterglow[i] - dt);
       }
 
+      // Edge fade — elements near canvas edges are dimmer
+      const fadeMargin = Math.min(w, h) * 0.15;
+      function edgeFade(x: number, y: number): number {
+        const left = Math.min(x / fadeMargin, 1);
+        const right = Math.min((w - x) / fadeMargin, 1);
+        const top = Math.min(y / fadeMargin, 1);
+        const bottom = Math.min((h - y) / fadeMargin, 1);
+        return Math.min(left, right, top, bottom);
+      }
+
       // ── DRAW CONNECTIONS ──
       for (let i = 0; i < connections.length; i++) {
         const conn = connections[i];
@@ -436,7 +446,8 @@ function HeroCanvas() {
 
         // Afterglow blend — recently-traversed connections glow brighter
         const glowFrac = i < connAfterglow.length ? connAfterglow[i] / 1.5 : 0;
-        const baseAlpha = 0.15 + (from.activation + to.activation) * 0.12 + glowFrac * 0.2;
+        const eFade = Math.min(edgeFade(from.x, from.y), edgeFade(to.x, to.y));
+        const baseAlpha = (0.1 + (from.activation + to.activation) * 0.1 + glowFrac * 0.15) * eFade;
         const baseLightness = 48 + glowFrac * 10;
         ctx.beginPath();
         ctx.moveTo(from.x, from.y);
@@ -572,6 +583,7 @@ function HeroCanvas() {
       for (const node of nodes) {
         const a = node.activation;
         const pulse = Math.sin(t * 1.5 + node.phase) * 0.5 + 0.5;
+        const nFade = edgeFade(node.x, node.y);
 
         // Activation bloom
         if (a > 0.05) {
@@ -599,7 +611,7 @@ function HeroCanvas() {
         }
 
         // Node body
-        const bodyAlpha = 0.4 + a * 0.5 + pulse * 0.1;
+        const bodyAlpha = (0.35 + a * 0.45 + pulse * 0.08) * nFade;
         const lightness = 45 + a * 25 + pulse * 8;
         const bodyGr = ctx.createRadialGradient(
           node.x - node.radius * 0.3, node.y - node.radius * 0.3, 0,
@@ -615,7 +627,7 @@ function HeroCanvas() {
         // Ring
         ctx.beginPath();
         ctx.arc(node.x, node.y, node.radius + 0.8, 0, TAU);
-        ctx.strokeStyle = `hsla(155, 45%, 55%, ${0.18 + a * 0.35})`;
+        ctx.strokeStyle = `hsla(155, 45%, 55%, ${(0.15 + a * 0.3) * nFade})`;
         ctx.lineWidth = 0.6;
         ctx.stroke();
 
@@ -675,64 +687,98 @@ function HeroCanvas() {
     };
   }, []);
 
-  return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />;
+  return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full opacity-25" />;
 }
 
 export default function Hero() {
   const t = useTranslations("Hero");
   const sectionRef = useRef<HTMLElement>(null);
 
-
   return (
-    <section ref={sectionRef} className="relative min-h-[60vh] flex items-center justify-center bg-turtle-950 overflow-hidden">
-      <HeroCanvas />
+    <section
+      ref={sectionRef}
+      className="relative flex items-center justify-center overflow-hidden bg-turtle-950"
+      style={{ minHeight: "65svh" }}
+    >
+      {/* ── Animated gradient mesh ── */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="hero-mesh-wrapper">
+          <div className="hero-blob hero-blob-1" />
+          <div className="hero-blob hero-blob-2" />
+          <div className="hero-blob hero-blob-3" />
+          <div className="hero-blob hero-blob-4" />
+        </div>
+      </div>
 
+      {/* ── Dot grid pattern ── */}
       <div
-        className="absolute inset-0 pointer-events-none"
+        className="absolute inset-0 pointer-events-none opacity-[0.07]"
         style={{
-          background: "radial-gradient(ellipse 55% 45% at 50% 50%, rgba(5, 46, 22, 0.5) 0%, transparent 100%)",
+          backgroundImage: "radial-gradient(circle, rgba(74, 222, 128, 0.8) 1px, transparent 1px)",
+          backgroundSize: "32px 32px",
         }}
       />
 
-      <Container className="relative z-10 py-20">
+      {/* ── Radial vignette for focus ── */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: "radial-gradient(ellipse 70% 60% at 50% 50%, transparent 30%, rgba(5, 46, 22, 0.6) 100%)",
+        }}
+      />
+
+      <Container className="relative z-10 py-16 md:py-20 lg:py-24">
         <div className="max-w-3xl mx-auto text-center">
-          <motion.p
-            className="text-sm md:text-base font-semibold uppercase tracking-widest text-turtle-400 mb-4"
+          {/* Heading */}
+          <motion.h1
+            className="text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.05] tracking-[-0.02em] text-white"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-          >
-            {COMPANY.name}
-          </motion.p>
-          <motion.h1
-            className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight tracking-tight"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+            transition={{ duration: 0.8, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
           >
             {t("tagline")}
           </motion.h1>
+
+          {/* Subtitle */}
           <motion.p
-            className="text-lg md:text-xl text-turtle-200 mt-6 mx-auto max-w-2xl leading-relaxed"
-            initial={{ opacity: 0, y: 20 }}
+            className="text-base md:text-lg text-turtle-200/60 mt-6 mx-auto max-w-xl leading-relaxed"
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+            transition={{ duration: 0.8, delay: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
           >
             {t("subtitle")}
           </motion.p>
+
+          {/* CTA buttons */}
           <motion.div
-            className="mt-8"
-            initial={{ opacity: 0, y: 20 }}
+            className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4"
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
-
           >
-            <Button href="#contact" className="text-lg px-10 py-4">
+            <Button onClick={() => document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" })} className="text-base px-8 py-3.5 shadow-2xl shadow-turtle-500/20 hero-cta-glow">
               {t("cta")}
             </Button>
+            <button
+              onClick={() => document.querySelector("#services")?.scrollIntoView({ behavior: "smooth" })}
+              className="group inline-flex items-center justify-center gap-2 text-sm font-medium text-turtle-300/50 hover:text-turtle-200 transition-colors duration-300"
+            >
+              {t("ctaSecondary")}
+              <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
           </motion.div>
         </div>
       </Container>
+
+      {/* Bottom gradient fade */}
+      <div
+        className="absolute bottom-0 left-0 right-0 h-24 pointer-events-none"
+        style={{
+          background: "linear-gradient(180deg, transparent 0%, #052e16 100%)",
+        }}
+      />
     </section>
   );
 }

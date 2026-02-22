@@ -9,9 +9,11 @@
     "contact": "Kontakt"
   },
   "Hero": {
+    "badgeLabel": "IT-konsulter",
     "tagline": "Smarta IT-lösningar för framtidens företag",
     "subtitle": "Vi bygger AI-lösningar, CRM-system och molntjänster som driver er verksamhet framåt.",
-    "cta": "Kontakta oss"
+    "cta": "Kontakta oss",
+    "ctaSecondary": "Våra tjänster"
   },
   "Services": {
     "heading": "Våra tjänster",
