@@ -42,7 +42,7 @@ export default function Contact() {
   }
 
   return (
-    <section id="contact" className="bg-turtle-50 py-20">
+    <section id="contact" className="bg-white py-20">
       <Container>
         <ScrollReveal>
           <SectionHeading>{t("heading")}</SectionHeading>
@@ -56,7 +56,7 @@ export default function Contact() {
                 type="text"
                 placeholder={t("namePlaceholder")}
                 required
-                className="w-full px-4 py-3 rounded-lg border border-bark-300 bg-white shadow-sm focus:ring-2 focus:ring-turtle-500 focus:border-transparent outline-none transition-all"
+                className="w-full px-4 py-3 rounded-lg border border-turtle-200 bg-white shadow-sm focus:ring-2 focus:ring-turtle-500 focus:border-transparent outline-none transition-all"
               />
             </div>
             <div>
@@ -65,7 +65,7 @@ export default function Contact() {
                 type="email"
                 placeholder={t("emailPlaceholder")}
                 required
-                className="w-full px-4 py-3 rounded-lg border border-bark-300 bg-white shadow-sm focus:ring-2 focus:ring-turtle-500 focus:border-transparent outline-none transition-all"
+                className="w-full px-4 py-3 rounded-lg border border-turtle-200 bg-white shadow-sm focus:ring-2 focus:ring-turtle-500 focus:border-transparent outline-none transition-all"
               />
             </div>
             <div>
@@ -74,7 +74,7 @@ export default function Contact() {
                 rows={5}
                 placeholder={t("messagePlaceholder")}
                 required
-                className="w-full px-4 py-3 rounded-lg border border-bark-300 bg-white shadow-sm focus:ring-2 focus:ring-turtle-500 focus:border-transparent outline-none transition-all resize-none"
+                className="w-full px-4 py-3 rounded-lg border border-turtle-200 bg-white shadow-sm focus:ring-2 focus:ring-turtle-500 focus:border-transparent outline-none transition-all resize-none"
               />
             </div>
             <Button type="submit" disabled={status === "sending"}>
@@ -92,7 +92,7 @@ export default function Contact() {
 
           <ScrollReveal delay={0.2}>
           <div className="flex flex-col justify-center space-y-6">
-            <p className="text-bark-600 text-lg">{t("info")}</p>
+            <p className="text-gray-600 text-lg">{t("info")}</p>
             <a
               href={`tel:${COMPANY.phone.replace(/[\s-]/g, "")}`}
               className="inline-flex items-center gap-2 text-turtle-700 hover:text-turtle-800 font-medium text-lg transition-colors"

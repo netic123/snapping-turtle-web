@@ -23,7 +23,7 @@
     position: absolute;
     inset: -4px;
     border-radius: inherit;
-    background: rgba(74, 222, 128, 0.12);
+    background: rgba(75, 168, 111, 0.12);
     z-index: -1;
     filter: blur(20px);
     opacity: 0.5;
@@ -55,7 +55,7 @@
   height: 55%;
   top: 5%;
   left: 20%;
-  background: radial-gradient(circle at 50% 50%, rgba(34, 197, 94, 0.5) 0%, rgba(22, 163, 74, 0.15) 50%, transparent 70%);
+  background: radial-gradient(circle at 50% 50%, rgba(46, 139, 87, 0.5) 0%, rgba(30, 110, 66, 0.15) 50%, transparent 70%);
   animation: blob-float-1 12s ease-in-out infinite;
 }
 
@@ -64,7 +64,7 @@
   height: 50%;
   top: 25%;
   left: 50%;
-  background: radial-gradient(circle at 50% 50%, rgba(74, 222, 128, 0.45) 0%, rgba(74, 222, 128, 0.12) 50%, transparent 70%);
+  background: radial-gradient(circle at 50% 50%, rgba(75, 168, 111, 0.45) 0%, rgba(75, 168, 111, 0.12) 50%, transparent 70%);
   animation: blob-float-2 15s ease-in-out infinite;
 }
 
@@ -73,7 +73,7 @@
   height: 45%;
   top: 45%;
   left: 10%;
-  background: radial-gradient(circle at 50% 50%, rgba(134, 239, 172, 0.35) 0%, rgba(134, 239, 172, 0.08) 50%, transparent 70%);
+  background: radial-gradient(circle at 50% 50%, rgba(123, 196, 150, 0.35) 0%, rgba(123, 196, 150, 0.08) 50%, transparent 70%);
   animation: blob-float-3 18s ease-in-out infinite;
 }
 
@@ -82,7 +82,7 @@
   height: 40%;
   top: 10%;
   left: 40%;
-  background: radial-gradient(circle at 50% 50%, rgba(22, 101, 52, 0.55) 0%, rgba(22, 101, 52, 0.15) 50%, transparent 70%);
+  background: radial-gradient(circle at 50% 50%, rgba(15, 64, 41, 0.55) 0%, rgba(15, 64, 41, 0.15) 50%, transparent 70%);
   animation: blob-float-4 20s ease-in-out infinite;
 }
 

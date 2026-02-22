@@ -9,15 +9,15 @@ export default function About() {
   const t = useTranslations("About");
 
   return (
-    <section id="about" className="py-20">
+    <section id="about" className="bg-turtle-50/30 py-20">
       <Container>
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <ScrollReveal>
             <SectionHeading>{t("heading")}</SectionHeading>
-            <p className="text-bark-700 mt-6 text-lg leading-relaxed">
+            <p className="text-gray-600 mt-6 text-lg leading-relaxed">
               {t("text1")}
             </p>
-            <p className="text-bark-700 mt-4 text-lg leading-relaxed">
+            <p className="text-gray-600 mt-4 text-lg leading-relaxed">
               {t("text2")}
             </p>
           </ScrollReveal>

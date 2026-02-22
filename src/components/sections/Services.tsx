@@ -10,7 +10,7 @@ export default function Services() {
   const t = useTranslations("Services");
 
   return (
-    <section id="services" className="bg-turtle-50/50 py-20">
+    <section id="services" className="bg-white py-20">
       <Container>
         <ScrollReveal>
           <SectionHeading>{t("heading")}</SectionHeading>

@@ -26,8 +26,8 @@ export default function ServiceCard({ icon, title, description, index = 0 }: Ser
       <div className="w-12 h-12 bg-gradient-to-br from-turtle-100 to-turtle-50 rounded-xl flex items-center justify-center text-turtle-700 text-2xl">
         {icon}
       </div>
-      <h3 className="text-xl font-semibold text-bark-900 mt-4">{title}</h3>
-      <p className="text-bark-600 mt-2 leading-relaxed">{description}</p>
+      <h3 className="text-xl font-semibold text-gray-900 mt-4">{title}</h3>
+      <p className="text-gray-600 mt-2 leading-relaxed">{description}</p>
     </motion.div>
   );
 }

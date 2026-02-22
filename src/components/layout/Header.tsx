@@ -16,7 +16,7 @@ export default function Header() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-bark-200">
+    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-turtle-100">
       <Container>
         <nav className="flex items-center justify-center h-16 gap-8">
           <div className="hidden md:flex items-center gap-8">
@@ -24,7 +24,7 @@ export default function Header() {
               <button
                 key={link.href}
                 onClick={() => document.querySelector(link.href)?.scrollIntoView({ behavior: "smooth" })}
-                className="text-bark-600 hover:text-turtle-700 font-medium transition-colors"
+                className="text-gray-600 hover:text-gray-900 font-medium transition-colors"
               >
                 {link.label}
               </button>
@@ -35,7 +35,7 @@ export default function Header() {
             <LanguageSwitcher />
             <button
               onClick={() => setMenuOpen(!menuOpen)}
-              className="md:hidden p-2 text-bark-600 hover:text-bark-900"
+              className="md:hidden p-2 text-gray-600 hover:text-gray-900"
               aria-label="Toggle menu"
             >
               <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -50,7 +50,7 @@ export default function Header() {
         </nav>
 
         {menuOpen && (
-          <div className="md:hidden border-t border-bark-200 py-4 space-y-3">
+          <div className="md:hidden border-t border-turtle-100 py-4 space-y-3">
             {navLinks.map((link) => (
               <button
                 key={link.href}
@@ -58,7 +58,7 @@ export default function Header() {
                   setMenuOpen(false);
                   document.querySelector(link.href)?.scrollIntoView({ behavior: "smooth" });
                 }}
-                className="block text-bark-600 hover:text-turtle-700 font-medium py-2"
+                className="block text-gray-600 hover:text-gray-900 font-medium py-2"
               >
                 {link.label}
               </button>
