@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 type ButtonProps = {
   children: React.ReactNode;
   href?: string;
+  onClick?: () => void;
   variant?: "primary" | "outline";
   type?: "button" | "submit";
   disabled?: boolean;
@@ -14,6 +15,7 @@ type ButtonProps = {
 export default function Button({
   children,
   href,
+  onClick,
   variant = "primary",
   type = "button",
   disabled = false,
@@ -40,6 +42,20 @@ export default function Button({
       >
         {children}
       </motion.a>
+    );
+  }
+
+  if (onClick) {
+    return (
+      <motion.button
+        onClick={onClick}
+        className={classes}
+        whileHover={{ scale: 1.03 }}
+        whileTap={{ scale: 0.97 }}
+        transition={{ type: "spring", stiffness: 400, damping: 17 }}
+      >
+        {children}
+      </motion.button>
     );
   }
 

@@ -9,9 +9,11 @@
     "contact": "Contact"
   },
   "Hero": {
+    "badgeLabel": "IT Consultants",
     "tagline": "Smart IT Solutions for Tomorrow's Business",
     "subtitle": "We build AI solutions, CRM systems, and cloud services that drive your business forward.",
-    "cta": "Get in Touch"
+    "cta": "Get in Touch",
+    "ctaSecondary": "Our Services"
   },
   "Services": {
     "heading": "Our Services",
