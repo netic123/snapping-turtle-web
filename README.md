@@ -7,7 +7,7 @@ Bilingual (Swedish/English) company website for **Snapping Turtle** — an IT co
 ## Features
 
 - Interactive neural network hero animation with chain-reaction signals, ripple effects, and mouse interaction
-- 5 service pages: AI Solutions, Dynamics 365 CRM, Power Platform, Azure, Custom CRM
+- 5 service sections: AI Solutions, Dynamics 365 CRM, Power Platform, Azure, Custom CRM
 - Industry showcase section
 - Contact form with email delivery via Nodemailer
 - Bilingual support (Swedish default, English) with next-intl
