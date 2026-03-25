@@ -260,7 +260,7 @@ function HeroCanvas() {
       const h = canvas.height;
       if (w === 0 || h === 0) return;
 
-      ctx.fillStyle = "#062a14";
+      ctx.fillStyle = "#0a1628";
       ctx.fillRect(0, 0, w, h);
 
       // Auto-fire thoughts
@@ -326,7 +326,7 @@ function HeroCanvas() {
       }
 
       function sigHue(gen: number): number {
-        return 155 + Math.min(gen, 6) * 5;
+        return 220 + Math.min(gen, 6) * 5;
       }
 
       // Build live signal count per connection for the 2-per-line cap
@@ -452,7 +452,7 @@ function HeroCanvas() {
         ctx.beginPath();
         ctx.moveTo(from.x, from.y);
         ctx.lineTo(to.x, to.y);
-        ctx.strokeStyle = `hsla(${155 + glowFrac * 10}, ${30 + glowFrac * 20}%, ${baseLightness}%, ${baseAlpha})`;
+        ctx.strokeStyle = `hsla(${220 + glowFrac * 10}, ${30 + glowFrac * 20}%, ${baseLightness}%, ${baseAlpha})`;
         ctx.lineWidth = 1 + glowFrac * 0.8;
         ctx.stroke();
 
@@ -589,9 +589,9 @@ function HeroCanvas() {
         if (a > 0.05) {
           const glowR = node.radius * (4 + a * 5);
           const gr = ctx.createRadialGradient(node.x, node.y, 0, node.x, node.y, glowR);
-          gr.addColorStop(0, `hsla(155, 65%, 65%, ${a * 0.4})`);
-          gr.addColorStop(0.4, `hsla(155, 55%, 55%, ${a * 0.12})`);
-          gr.addColorStop(1, "hsla(155, 45%, 45%, 0)");
+          gr.addColorStop(0, `hsla(220, 65%, 65%, ${a * 0.4})`);
+          gr.addColorStop(0.4, `hsla(220, 55%, 55%, ${a * 0.12})`);
+          gr.addColorStop(1, "hsla(220, 45%, 45%, 0)");
           ctx.beginPath();
           ctx.arc(node.x, node.y, glowR, 0, TAU);
           ctx.fillStyle = gr;
@@ -602,8 +602,8 @@ function HeroCanvas() {
         if (pulse > 0.6) {
           const pulseR = node.radius * 2.5;
           const pgr = ctx.createRadialGradient(node.x, node.y, 0, node.x, node.y, pulseR);
-          pgr.addColorStop(0, `hsla(155, 50%, 55%, ${(pulse - 0.6) * 0.06})`);
-          pgr.addColorStop(1, "hsla(155, 40%, 45%, 0)");
+          pgr.addColorStop(0, `hsla(220, 50%, 55%, ${(pulse - 0.6) * 0.06})`);
+          pgr.addColorStop(1, "hsla(220, 40%, 45%, 0)");
           ctx.beginPath();
           ctx.arc(node.x, node.y, pulseR, 0, TAU);
           ctx.fillStyle = pgr;
@@ -617,8 +617,8 @@ function HeroCanvas() {
           node.x - node.radius * 0.3, node.y - node.radius * 0.3, 0,
           node.x, node.y, node.radius
         );
-        bodyGr.addColorStop(0, `hsla(155, 60%, ${lightness + 12}%, ${bodyAlpha})`);
-        bodyGr.addColorStop(1, `hsla(155, 50%, ${lightness}%, ${bodyAlpha * 0.7})`);
+        bodyGr.addColorStop(0, `hsla(220, 60%, ${lightness + 12}%, ${bodyAlpha})`);
+        bodyGr.addColorStop(1, `hsla(220, 50%, ${lightness}%, ${bodyAlpha * 0.7})`);
         ctx.beginPath();
         ctx.arc(node.x, node.y, node.radius, 0, TAU);
         ctx.fillStyle = bodyGr;
@@ -627,7 +627,7 @@ function HeroCanvas() {
         // Ring
         ctx.beginPath();
         ctx.arc(node.x, node.y, node.radius + 0.8, 0, TAU);
-        ctx.strokeStyle = `hsla(155, 45%, 55%, ${(0.15 + a * 0.3) * nFade})`;
+        ctx.strokeStyle = `hsla(220, 45%, 55%, ${(0.15 + a * 0.3) * nFade})`;
         ctx.lineWidth = 0.6;
         ctx.stroke();
 
@@ -635,7 +635,7 @@ function HeroCanvas() {
         if (a > 0.3) {
           ctx.beginPath();
           ctx.arc(node.x, node.y, node.radius * 0.35, 0, TAU);
-          ctx.fillStyle = `hsla(155, 85%, 92%, ${a * 0.9})`;
+          ctx.fillStyle = `hsla(220, 85%, 92%, ${a * 0.9})`;
           ctx.fill();
         }
       }
@@ -643,9 +643,9 @@ function HeroCanvas() {
       // Mouse glow — larger, warmer
       if (mx > 0 && my > 0) {
         const mgr = ctx.createRadialGradient(mx, my, 0, mx, my, 130);
-        mgr.addColorStop(0, "hsla(148, 55%, 58%, 0.08)");
-        mgr.addColorStop(0.4, "hsla(150, 50%, 55%, 0.04)");
-        mgr.addColorStop(1, "hsla(155, 40%, 40%, 0)");
+        mgr.addColorStop(0, "hsla(220, 55%, 58%, 0.08)");
+        mgr.addColorStop(0.4, "hsla(220, 50%, 55%, 0.04)");
+        mgr.addColorStop(1, "hsla(220, 40%, 40%, 0)");
         ctx.beginPath();
         ctx.arc(mx, my, 130, 0, TAU);
         ctx.fillStyle = mgr;
@@ -714,7 +714,7 @@ export default function Hero() {
       <div
         className="absolute inset-0 pointer-events-none opacity-[0.07]"
         style={{
-          backgroundImage: "radial-gradient(circle, rgba(75, 168, 111, 0.8) 1px, transparent 1px)",
+          backgroundImage: "radial-gradient(circle, rgba(96, 165, 250, 0.8) 1px, transparent 1px)",
           backgroundSize: "32px 32px",
         }}
       />
@@ -723,7 +723,7 @@ export default function Hero() {
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: "radial-gradient(ellipse 70% 60% at 50% 50%, transparent 30%, rgba(5, 46, 22, 0.6) 100%)",
+          background: "radial-gradient(ellipse 70% 60% at 50% 50%, transparent 30%, rgba(10, 22, 40, 0.6) 100%)",
         }}
       />
 
@@ -776,7 +776,7 @@ export default function Hero() {
       <div
         className="absolute bottom-0 left-0 right-0 h-24 pointer-events-none"
         style={{
-          background: "linear-gradient(180deg, transparent 0%, #062a14 100%)",
+          background: "linear-gradient(180deg, transparent 0%, #0a1628 100%)",
         }}
       />
     </section>
