@@ -47,7 +47,7 @@ export default function About() {
               <g className="turtle-head">
                 <circle cx="40" cy="100" r="16" opacity="0.8" />
                 <circle cx="33" cy="97" r="3" fill="white" />
-                <circle cx="32" cy="97" r="1.5" fill="#1c1917" />
+                <circle cx="32" cy="97" r="1.5" fill="#000000" />
               </g>
               {/* Shell shadow */}
               <ellipse cx="100" cy="110" rx="60" ry="45" opacity="0.2" />

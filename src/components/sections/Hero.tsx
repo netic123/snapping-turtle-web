@@ -325,8 +325,8 @@ function HeroCanvas() {
         mouseHoverTime = 0;
       }
 
-      function sigHue(gen: number): number {
-        return 220 + Math.min(gen, 6) * 5;
+      function sigHue(_gen: number): number {
+        return 0;
       }
 
       // Build live signal count per connection for the 2-per-line cap
@@ -452,7 +452,7 @@ function HeroCanvas() {
         ctx.beginPath();
         ctx.moveTo(from.x, from.y);
         ctx.lineTo(to.x, to.y);
-        ctx.strokeStyle = `hsla(${220 + glowFrac * 10}, ${30 + glowFrac * 20}%, ${baseLightness}%, ${baseAlpha})`;
+        ctx.strokeStyle = `hsla(0, 0%, ${baseLightness}%, ${baseAlpha})`;
         ctx.lineWidth = 1 + glowFrac * 0.8;
         ctx.stroke();
 
@@ -464,13 +464,13 @@ function HeroCanvas() {
           const p = Math.max(0.15, Math.min(0.85, active.maxProgress));
 
           const gr = ctx.createLinearGradient(from.x, from.y, to.x, to.y);
-          gr.addColorStop(0, `hsla(${hue}, 45%, 50%, 0.03)`);
-          gr.addColorStop(p - 0.12, `hsla(${hue}, 45%, 50%, 0.05)`);
-          gr.addColorStop(p - 0.04, `hsla(${hue}, 60%, 60%, 0.25)`);
-          gr.addColorStop(p, `hsla(${hue}, 70%, 65%, 0.4)`);
-          gr.addColorStop(p + 0.02, `hsla(${hue}, 55%, 55%, 0.08)`);
-          gr.addColorStop(p + 0.12, `hsla(${hue}, 45%, 50%, 0)`);
-          if (p + 0.12 < 1) gr.addColorStop(1, `hsla(${hue}, 45%, 50%, 0)`);
+          gr.addColorStop(0, `hsla(0, 0%, 50%, 0.03)`);
+          gr.addColorStop(p - 0.12, `hsla(0, 0%, 50%, 0.05)`);
+          gr.addColorStop(p - 0.04, `hsla(0, 0%, 60%, 0.25)`);
+          gr.addColorStop(p, `hsla(0, 0%, 65%, 0.4)`);
+          gr.addColorStop(p + 0.02, `hsla(0, 0%, 55%, 0.08)`);
+          gr.addColorStop(p + 0.12, `hsla(0, 0%, 50%, 0)`);
+          if (p + 0.12 < 1) gr.addColorStop(1, `hsla(0, 0%, 50%, 0)`);
 
           ctx.beginPath();
           ctx.moveTo(from.x, from.y);
@@ -494,7 +494,7 @@ function HeroCanvas() {
         const alpha = (1 - frac) * 0.35;
         ctx.beginPath();
         ctx.arc(rp.x, rp.y, radius, 0, TAU);
-        ctx.strokeStyle = `hsla(${rp.hue}, 60%, 60%, ${alpha})`;
+        ctx.strokeStyle = `hsla(0, 0%, 60%, ${alpha})`;
         ctx.lineWidth = 1.5 * (1 - frac * 0.6);
         ctx.stroke();
       }
@@ -513,7 +513,7 @@ function HeroCanvas() {
         const brightBoost = genFrac * 0.15;
         const pulseRate = 3 + genFrac * 8;
         const corePulse = Math.sin(t * pulseRate + sig.progress * 10) * 0.5 + 0.5;
-        const sat = 65 + genFrac * 20;
+        const sat = 0;
 
         // Progress along the line (0→1 for forward, 1→0 for reverse)
         const p = Math.max(0, Math.min(1, sig.progress));
@@ -529,9 +529,9 @@ function HeroCanvas() {
         // Outer bloom — scales with generation
         const bloomR = 20 * sizeScale;
         const gr2 = ctx.createRadialGradient(px, py, 0, px, py, bloomR);
-        gr2.addColorStop(0, `hsla(${hue}, ${sat}%, 65%, ${(0.3 + brightBoost) * intensity})`);
-        gr2.addColorStop(0.4, `hsla(${hue}, ${sat - 10}%, 55%, ${(0.08 + brightBoost * 0.3) * intensity})`);
-        gr2.addColorStop(1, `hsla(${hue}, ${sat - 20}%, 45%, 0)`);
+        gr2.addColorStop(0, `hsla(0, 0%, 65%, ${(0.3 + brightBoost) * intensity})`);
+        gr2.addColorStop(0.4, `hsla(0, 0%, 55%, ${(0.08 + brightBoost * 0.3) * intensity})`);
+        gr2.addColorStop(1, `hsla(0, 0%, 45%, 0)`);
         ctx.beginPath();
         ctx.arc(px, py, bloomR, 0, TAU);
         ctx.fillStyle = gr2;
@@ -540,9 +540,9 @@ function HeroCanvas() {
         // Inner glow — scales with generation
         const innerR = 6 * sizeScale;
         const gr = ctx.createRadialGradient(px, py, 0, px, py, innerR);
-        gr.addColorStop(0, `hsla(${hue}, ${sat + 20}%, 85%, ${(0.8 + brightBoost) * intensity})`);
-        gr.addColorStop(0.5, `hsla(${hue}, ${sat}%, 60%, ${(0.2 + brightBoost * 0.5) * intensity})`);
-        gr.addColorStop(1, `hsla(${hue}, ${sat - 15}%, 50%, 0)`);
+        gr.addColorStop(0, `hsla(0, 0%, 85%, ${(0.8 + brightBoost) * intensity})`);
+        gr.addColorStop(0.5, `hsla(0, 0%, 60%, ${(0.2 + brightBoost * 0.5) * intensity})`);
+        gr.addColorStop(1, `hsla(0, 0%, 50%, 0)`);
         ctx.beginPath();
         ctx.arc(px, py, innerR, 0, TAU);
         ctx.fillStyle = gr;
@@ -550,7 +550,7 @@ function HeroCanvas() {
 
         // Core — pulses faster for later generations
         const coreR = (1.8 + corePulse * 0.8) * sizeScale;
-        const coreSat = 90 - genFrac * 30;
+        const coreSat = 0;
         const coreLight = 93 + genFrac * 5;
         ctx.beginPath();
         ctx.arc(px, py, coreR, 0, TAU);
@@ -566,9 +566,9 @@ function HeroCanvas() {
         const ty = from.y + (to.y - from.y) * ts;
 
         const trailGr = ctx.createLinearGradient(tx, ty, px, py);
-        trailGr.addColorStop(0, `hsla(${hue}, 45%, 50%, 0)`);
-        trailGr.addColorStop(0.5, `hsla(${hue}, 55%, 55%, ${0.08 * intensity})`);
-        trailGr.addColorStop(1, `hsla(${hue}, 60%, 60%, ${(0.25 + brightBoost) * intensity})`);
+        trailGr.addColorStop(0, `hsla(0, 0%, 50%, 0)`);
+        trailGr.addColorStop(0.5, `hsla(0, 0%, 55%, ${0.08 * intensity})`);
+        trailGr.addColorStop(1, `hsla(0, 0%, 60%, ${(0.25 + brightBoost) * intensity})`);
         ctx.beginPath();
         ctx.moveTo(tx, ty);
         ctx.lineTo(px, py);
@@ -589,9 +589,9 @@ function HeroCanvas() {
         if (a > 0.05) {
           const glowR = node.radius * (4 + a * 5);
           const gr = ctx.createRadialGradient(node.x, node.y, 0, node.x, node.y, glowR);
-          gr.addColorStop(0, `hsla(220, 65%, 65%, ${a * 0.4})`);
-          gr.addColorStop(0.4, `hsla(220, 55%, 55%, ${a * 0.12})`);
-          gr.addColorStop(1, "hsla(220, 45%, 45%, 0)");
+          gr.addColorStop(0, `hsla(0, 0%, 65%, ${a * 0.4})`);
+          gr.addColorStop(0.4, `hsla(0, 0%, 55%, ${a * 0.12})`);
+          gr.addColorStop(1, "hsla(0, 0%, 45%, 0)");
           ctx.beginPath();
           ctx.arc(node.x, node.y, glowR, 0, TAU);
           ctx.fillStyle = gr;
@@ -602,8 +602,8 @@ function HeroCanvas() {
         if (pulse > 0.6) {
           const pulseR = node.radius * 2.5;
           const pgr = ctx.createRadialGradient(node.x, node.y, 0, node.x, node.y, pulseR);
-          pgr.addColorStop(0, `hsla(220, 50%, 55%, ${(pulse - 0.6) * 0.06})`);
-          pgr.addColorStop(1, "hsla(220, 40%, 45%, 0)");
+          pgr.addColorStop(0, `hsla(0, 0%, 55%, ${(pulse - 0.6) * 0.06})`);
+          pgr.addColorStop(1, "hsla(0, 0%, 45%, 0)");
           ctx.beginPath();
           ctx.arc(node.x, node.y, pulseR, 0, TAU);
           ctx.fillStyle = pgr;
@@ -617,8 +617,8 @@ function HeroCanvas() {
           node.x - node.radius * 0.3, node.y - node.radius * 0.3, 0,
           node.x, node.y, node.radius
         );
-        bodyGr.addColorStop(0, `hsla(220, 60%, ${lightness + 12}%, ${bodyAlpha})`);
-        bodyGr.addColorStop(1, `hsla(220, 50%, ${lightness}%, ${bodyAlpha * 0.7})`);
+        bodyGr.addColorStop(0, `hsla(0, 0%, ${lightness + 12}%, ${bodyAlpha})`);
+        bodyGr.addColorStop(1, `hsla(0, 0%, ${lightness}%, ${bodyAlpha * 0.7})`);
         ctx.beginPath();
         ctx.arc(node.x, node.y, node.radius, 0, TAU);
         ctx.fillStyle = bodyGr;
@@ -627,7 +627,7 @@ function HeroCanvas() {
         // Ring
         ctx.beginPath();
         ctx.arc(node.x, node.y, node.radius + 0.8, 0, TAU);
-        ctx.strokeStyle = `hsla(220, 45%, 55%, ${(0.15 + a * 0.3) * nFade})`;
+        ctx.strokeStyle = `hsla(0, 0%, 55%, ${(0.15 + a * 0.3) * nFade})`;
         ctx.lineWidth = 0.6;
         ctx.stroke();
 
@@ -635,7 +635,7 @@ function HeroCanvas() {
         if (a > 0.3) {
           ctx.beginPath();
           ctx.arc(node.x, node.y, node.radius * 0.35, 0, TAU);
-          ctx.fillStyle = `hsla(220, 85%, 92%, ${a * 0.9})`;
+          ctx.fillStyle = `hsla(0, 0%, 95%, ${a * 0.9})`;
           ctx.fill();
         }
       }
@@ -643,9 +643,9 @@ function HeroCanvas() {
       // Mouse glow — larger, warmer
       if (mx > 0 && my > 0) {
         const mgr = ctx.createRadialGradient(mx, my, 0, mx, my, 130);
-        mgr.addColorStop(0, "hsla(220, 55%, 58%, 0.08)");
-        mgr.addColorStop(0.4, "hsla(220, 50%, 55%, 0.04)");
-        mgr.addColorStop(1, "hsla(220, 40%, 40%, 0)");
+        mgr.addColorStop(0, "hsla(0, 0%, 58%, 0.08)");
+        mgr.addColorStop(0.4, "hsla(0, 0%, 55%, 0.04)");
+        mgr.addColorStop(1, "hsla(0, 0%, 40%, 0)");
         ctx.beginPath();
         ctx.arc(mx, my, 130, 0, TAU);
         ctx.fillStyle = mgr;
@@ -714,7 +714,7 @@ export default function Hero() {
       <div
         className="absolute inset-0 pointer-events-none opacity-[0.07]"
         style={{
-          backgroundImage: "radial-gradient(circle, rgba(59, 130, 246, 0.8) 1px, transparent 1px)",
+          backgroundImage: "radial-gradient(circle, rgba(255, 255, 255, 0.3) 1px, transparent 1px)",
           backgroundSize: "32px 32px",
         }}
       />
