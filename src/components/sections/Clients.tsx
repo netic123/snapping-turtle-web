@@ -18,7 +18,7 @@ export default function Clients() {
   const t = useTranslations("Clients");
 
   return (
-    <section className="py-20 bg-turtle-900">
+    <section className="py-20 bg-bark-200">
       <Container>
         <ScrollReveal>
           <p className="text-center text-white/70 text-sm font-medium uppercase tracking-widest mb-12">

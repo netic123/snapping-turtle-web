@@ -45,7 +45,7 @@ export default function Logo({ className = "w-8 h-8" }: LogoProps) {
 
       {/* Eye */}
       <circle cx="58" cy="16" r="1.8" fill="white" />
-      <circle cx="58.5" cy="16" r="0.9" fill="#052e16" />
+      <circle cx="58.5" cy="16" r="0.9" fill="#000000" />
     </svg>
   );
 }

@@ -26,7 +26,7 @@ export default function Button({
   const variants = {
     primary: "bg-turtle-600 hover:bg-turtle-700 text-white shadow-md hover:shadow-lg shadow-turtle-600/25",
     outline:
-      "border-2 border-turtle-600 text-turtle-700 hover:bg-turtle-50",
+      "border-2 border-turtle-600 text-turtle-600 hover:bg-turtle-600/10",
   };
 
   const classes = `${base} ${variants[variant]} ${className}`;

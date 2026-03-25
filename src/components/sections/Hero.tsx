@@ -260,7 +260,7 @@ function HeroCanvas() {
       const h = canvas.height;
       if (w === 0 || h === 0) return;
 
-      ctx.fillStyle = "#0a1628";
+      ctx.fillStyle = "#000000";
       ctx.fillRect(0, 0, w, h);
 
       // Auto-fire thoughts
@@ -714,7 +714,7 @@ export default function Hero() {
       <div
         className="absolute inset-0 pointer-events-none opacity-[0.07]"
         style={{
-          backgroundImage: "radial-gradient(circle, rgba(96, 165, 250, 0.8) 1px, transparent 1px)",
+          backgroundImage: "radial-gradient(circle, rgba(59, 130, 246, 0.8) 1px, transparent 1px)",
           backgroundSize: "32px 32px",
         }}
       />
@@ -723,7 +723,7 @@ export default function Hero() {
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: "radial-gradient(ellipse 70% 60% at 50% 50%, transparent 30%, rgba(10, 22, 40, 0.6) 100%)",
+          background: "radial-gradient(ellipse 70% 60% at 50% 50%, transparent 30%, rgba(0, 0, 0, 0.6) 100%)",
         }}
       />
 
@@ -776,7 +776,7 @@ export default function Hero() {
       <div
         className="absolute bottom-0 left-0 right-0 h-24 pointer-events-none"
         style={{
-          background: "linear-gradient(180deg, transparent 0%, #0a1628 100%)",
+          background: "linear-gradient(180deg, transparent 0%, #000000 100%)",
         }}
       />
     </section>
