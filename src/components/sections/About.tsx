@@ -9,21 +9,21 @@ export default function About() {
   const t = useTranslations("About");
 
   return (
-    <section id="about" className="bg-bark-100 py-20">
+    <section id="about" className="bg-[#0d1117] py-20">
       <Container>
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <ScrollReveal>
             <SectionHeading>{t("heading")}</SectionHeading>
-            <p className="text-bark-600 mt-6 text-lg leading-relaxed">
+            <p className="text-[#9198a1] mt-6 text-lg leading-relaxed">
               {t("text1")}
             </p>
-            <p className="text-bark-600 mt-4 text-lg leading-relaxed">
+            <p className="text-[#9198a1] mt-4 text-lg leading-relaxed">
               {t("text2")}
             </p>
           </ScrollReveal>
           <ScrollReveal delay={0.2} className="flex justify-center">
             <svg
-              className="w-64 h-64 text-turtle-600 opacity-80 cursor-pointer"
+              className="w-64 h-64 text-[#9198a1] opacity-60 cursor-pointer"
               viewBox="0 0 200 200"
               fill="currentColor"
             >

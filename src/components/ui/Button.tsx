@@ -24,9 +24,9 @@ export default function Button({
   const base =
     "inline-flex items-center justify-center px-8 py-3 rounded-xl font-medium transition-all duration-200";
   const variants = {
-    primary: "bg-turtle-600 hover:bg-turtle-700 text-white shadow-md hover:shadow-lg shadow-turtle-600/25",
+    primary: "bg-white hover:bg-gray-200 text-black shadow-md hover:shadow-lg",
     outline:
-      "border-2 border-turtle-600 text-turtle-600 hover:bg-turtle-600/10",
+      "border-2 border-[#30363d] text-[#e6edf3] hover:border-[#9198a1]",
   };
 
   const classes = `${base} ${variants[variant]} ${className}`;

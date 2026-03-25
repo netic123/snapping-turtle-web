@@ -14,15 +14,15 @@ export default function LanguageSwitcher() {
   }
 
   return (
-    <div className="flex bg-bark-300 rounded-full p-1">
+    <div className="flex bg-[#21262d] rounded-full p-1">
       {routing.locales.map((loc) => (
         <button
           key={loc}
           onClick={() => handleSwitch(loc)}
           className={`px-3 py-1 rounded-full text-sm font-medium transition-colors duration-200 ${
             loc === locale
-              ? "bg-turtle-600 text-white"
-              : "text-bark-600 hover:text-white"
+              ? "bg-white text-black"
+              : "text-[#9198a1] hover:text-white"
           }`}
         >
           {loc.toUpperCase()}

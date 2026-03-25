@@ -8,7 +8,7 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-turtle-950 text-white">
+    <footer className="bg-[#0d1117] border-t border-[#21262d] text-white">
       <Container>
         <div className="py-12 flex flex-col md:flex-row md:items-center md:justify-between gap-8">
           <div className="flex items-center gap-3">
@@ -17,20 +17,20 @@ export default function Footer() {
               alt="Snapping Turtle"
               width={80}
               height={45}
-              className="h-8 w-auto brightness-0 invert"
+              className="h-8 w-auto"
             />
             <div>
               <span className="font-bold text-lg text-white block">
                 {COMPANY.name}
               </span>
-              <p className="text-white/70 text-sm">{t("description")}</p>
+              <p className="text-[#9198a1] text-sm">{t("description")}</p>
             </div>
           </div>
 
           <div className="flex items-center gap-6">
             <a
               href={`tel:${COMPANY.phone.replace(/[\s-]/g, "")}`}
-              className="text-white/70 hover:text-white transition-colors text-sm"
+              className="text-[#9198a1] hover:text-white transition-colors text-sm"
             >
               {COMPANY.phone}
             </a>
@@ -48,8 +48,8 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-white/20 py-6">
-          <p className="text-white/60 text-sm text-center">
+        <div className="border-t border-[#21262d] py-6">
+          <p className="text-[#656d76] text-sm text-center">
             {t("copyright", { year })}
           </p>
         </div>
